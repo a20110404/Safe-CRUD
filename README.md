@@ -15,5 +15,8 @@ Interfaz para añadir empleados
 Consulta a base de datos mostrando la contraseña hasheada
 ![image](https://github.com/user-attachments/assets/6cf2fbde-a61c-4305-a345-7eef167a7713)
 
+Consulta a tabla de usuarios
+![image](https://github.com/user-attachments/assets/25aeeeae-8410-4a75-8cf4-d3b3002374ff)
+
 
 
