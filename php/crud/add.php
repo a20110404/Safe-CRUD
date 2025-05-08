@@ -89,7 +89,7 @@ Email	 	 : info@obedalvarado.pw
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Fecha de nacimiento:</label>
 					<div class="col-sm-4">
-						<input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="00-00-0000" required>
+						<input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="yy-mm-dd" required>
 					</div><br>
 				</div>
 				<div class="form-group">
