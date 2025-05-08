@@ -107,6 +107,8 @@
  
 								<a href="edit.php?nik='.$row['codigo'].'" title="Editar datos" class="btn btn-primary btn-sm"><i class="bi bi-person-badge-fill	" role="img" aria-label="GitHub"></i></a>
 								<a href="index.php?aksi=delete&nik='.$row['codigo'].'" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar los datos '.$row['nombres'].'?\')" class="btn btn-danger btn-sm"><i class="bi bi-x-circle" role="img" aria-label="GitHub"></i></a>
+								<a href="roles.php?nik='.$row['codigo'].'" title="Asignar roles" class="btn btn-primary btn-sm"><i class="bi bi-person-badge-fill " role="img" aria-label="GitHub"></i></a>
+
 							</td>
 						</tr>
 						';
