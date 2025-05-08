@@ -64,6 +64,8 @@
                     <th>No</th>
 					<th>Código</th>
 					<th>Nombre</th>
+					<th>Correo</th>
+					<th>Contraseña</th>
                     <th>Lugar de nacimiento</th>
                     <th>Fecha de nacimiento</th>
 					<th>Teléfono</th>
@@ -73,12 +75,12 @@
 				</tr>
 				<?php
 				if($filter){
-					$sql = mysqli_query($con, "SELECT * FROM empleados WHERE estado='$filter' ORDER BY codigo ASC");
+					$sql = mysqli_query($con, "SELECT * FROM empleados ORDER BY codigo ASC");
 				}else{
 					$sql = mysqli_query($con, "SELECT * FROM empleados ORDER BY codigo ASC");
 				}
 				if(mysqli_num_rows($sql) == 0){
-					echo '<tr><td colspan="8">No hay datos.</td></tr>';
+					echo '<tr><td colspan="11">No hay datos.</td></tr>';
 				}else{
 					$no = 1;
 					while($row = mysqli_fetch_assoc($sql)){
@@ -87,6 +89,8 @@
 							<td>'.$no.'</td>
 							<td>'.$row['codigo'].'</td>
 							<td><a href="profile.php?nik='.$row['codigo'].'"><span class="glyphicon glyphicon-user" aria-hidden="true"></span> '.$row['nombres'].'</a></td>
+							<td>'.$row['email'].'</td>
+							<td>********</td> <!-- Ocultamos la contraseña por seguridad -->
                             <td>'.$row['lugar_nacimiento'].'</td>
                             <td>'.$row['fecha_nacimiento'].'</td>
 							<td>'.$row['telefono'].'</td>
@@ -107,7 +111,7 @@
  
 								<a href="edit.php?nik='.$row['codigo'].'" title="Editar datos" class="btn btn-primary btn-sm"><i class="bi bi-person-badge-fill	" role="img" aria-label="GitHub"></i></a>
 								<a href="index.php?aksi=delete&nik='.$row['codigo'].'" title="Eliminar" onclick="return confirm(\'Esta seguro de borrar los datos '.$row['nombres'].'?\')" class="btn btn-danger btn-sm"><i class="bi bi-x-circle" role="img" aria-label="GitHub"></i></a>
-								<a href="roles.php?nik='.$row['codigo'].'" title="Asignar roles" class="btn btn-primary btn-sm"><i class="bi bi-person-badge-fill " role="img" aria-label="GitHub"></i></a>
+								<a href="roles.php?nik='.$row['codigo'].'" title="Asignar roles" class="btn btn-dark btn-sm"><i class="bi bi-key-fill" role="img" aria-label="GitHub"></i></a>
 
 							</td>
 						</tr>

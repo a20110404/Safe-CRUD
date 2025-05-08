@@ -2,7 +2,7 @@
   <div class="container-fluid">
   <a class="navbar-brand" href="#">
     <img src="../../icons/ceti_escudo.png" alt="20110404" height="24">  
-    Bienvenido al sitio</a>
+    Administración de roles, altas y bajas</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
     </button>
