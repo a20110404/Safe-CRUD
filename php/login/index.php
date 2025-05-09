@@ -3,7 +3,6 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
-
 include 'database.php';
 session_start();
 
@@ -17,7 +16,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = htmlspecialchars(trim($_POST['email']));
     $password = trim($_POST['pass_word']);
 
-    $stmt = $conn->prepare("SELECT firstName, pass_word FROM users WHERE email = ?");
+    // Verificar en la tabla users
+    $stmt = $conn->prepare("SELECT id, firstName, pass_word FROM users WHERE email = ?");
     $stmt->bind_param("s", $email);
     $stmt->execute();
     $result = $stmt->get_result();
@@ -28,11 +28,30 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $_SESSION['user_id'] = $user['id'];
             $_SESSION['user_name'] = $user['firstName'];
             header('Location: ../crud/index.php');
+            exit();
         } else {
             $error = "Contraseña incorrecta.";
         }
     } else {
-        $error =  "Usuario no encontrado.";
+        // Si no existe en users, verificar en la tabla empleados
+        $stmt = $conn->prepare("SELECT codigo, nombres, password FROM empleados WHERE email = ?");
+        $stmt->bind_param("s", $email);
+        $stmt->execute();
+        $result = $stmt->get_result();
+
+        if ($result->num_rows === 1) {
+            $empleado = $result->fetch_assoc();
+            if (password_verify($password, $empleado['password'])) {
+                $_SESSION['user_id'] = $empleado['codigo'];
+                $_SESSION['user_name'] = $empleado['nombres'];
+                header('Location: ../crud/empleados/index_empleados.php');
+                exit();
+            } else {
+                $error = "Contraseña incorrecta.";
+            }
+        } else {
+            $error = "Usuario no encontrado.";
+        }
     }
 }
 ?>

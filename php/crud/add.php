@@ -4,13 +4,6 @@ include("conexion.php");
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<!--
-Project      : Datos de empleados con PHP, MySQLi y Bootstrap CRUD  (Create, read, Update, Delete) 
-Author		 : Obed Alvarado
-Website		 : http://www.obedalvarado.pw
-Blog         : http://obedalvarado.pw/blog/
-Email	 	 : info@obedalvarado.pw
--->
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -18,8 +11,9 @@ Email	 	 : info@obedalvarado.pw
  
 	<!-- Bootstrap -->
 	<link href="../../css/bootstrap.css" rel="stylesheet">
-	<link href="../css/bootstrap-datepicker.css" rel="stylesheet">
-	<link href="../css/style_nav.css" rel="stylesheet">
+	<link href="../../css/bootstrap-datepicker.min.css" rel="stylesheet">
+	<!-- Bootstrap Datepicker CSS -->
+<link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.min.css" rel="stylesheet">
 	<style>
 		.content {
 			margin-top: 80px;
@@ -39,75 +33,74 @@ Email	 	 : info@obedalvarado.pw
 			<hr />
  
 			<?php
-			if(isset($_POST['add'])){
-				$codigo		     = mysqli_real_escape_string($con,(strip_tags($_POST["codigo"],ENT_QUOTES)));//Escanpando caracteres 
-				$nombres		     = mysqli_real_escape_string($con,(strip_tags($_POST["nombres"],ENT_QUOTES)));//Escanpando caracteres 
-				$lugar_nacimiento	 = mysqli_real_escape_string($con,(strip_tags($_POST["lugar_nacimiento"],ENT_QUOTES)));//Escanpando caracteres 
-				$fecha_nacimiento	 = mysqli_real_escape_string($con,(strip_tags($_POST["fecha_nacimiento"],ENT_QUOTES)));//Escanpando caracteres 
-				$direccion	     = mysqli_real_escape_string($con,(strip_tags($_POST["direccion"],ENT_QUOTES)));//Escanpando caracteres 
-				$telefono		 = mysqli_real_escape_string($con,(strip_tags($_POST["telefono"],ENT_QUOTES)));//Escanpando caracteres 
-				$puesto		 = mysqli_real_escape_string($con,(strip_tags($_POST["puesto"],ENT_QUOTES)));//Escanpando caracteres 
-				$estado			 = mysqli_real_escape_string($con,(strip_tags($_POST["estado"],ENT_QUOTES)));//Escanpando caracteres 
-				
+			if (isset($_POST['add'])) {
+				$nombres             = mysqli_real_escape_string($con, (strip_tags($_POST["nombres"], ENT_QUOTES)));
+				$lugar_nacimiento    = mysqli_real_escape_string($con, (strip_tags($_POST["lugar_nacimiento"], ENT_QUOTES)));
+				$fecha_nacimiento    = mysqli_real_escape_string($con, (strip_tags($_POST["fecha_nacimiento"], ENT_QUOTES)));
+				$direccion           = mysqli_real_escape_string($con, (strip_tags($_POST["direccion"], ENT_QUOTES)));
+				$telefono            = mysqli_real_escape_string($con, (strip_tags($_POST["telefono"], ENT_QUOTES)));
+				$puesto              = mysqli_real_escape_string($con, (strip_tags($_POST["puesto"], ENT_QUOTES)));
+				$estado              = mysqli_real_escape_string($con, (strip_tags($_POST["estado"], ENT_QUOTES)));
+				$email               = mysqli_real_escape_string($con, (strip_tags($_POST["email"], ENT_QUOTES)));
+				$password            = password_hash($_POST["password"], PASSWORD_BCRYPT);
 			
- 
-				$cek = mysqli_query($con, "SELECT * FROM empleados WHERE codigo='$codigo'");
-				if(mysqli_num_rows($cek) == 0){
-						$insert = mysqli_query($con, "INSERT INTO empleados(codigo, nombres, lugar_nacimiento, fecha_nacimiento, direccion, telefono, puesto, estado)
-															VALUES('$codigo','$nombres', '$lugar_nacimiento', '$fecha_nacimiento', '$direccion', '$telefono', '$puesto', '$estado')") or die(mysqli_error());
-						if($insert){
-							echo '<div class="alert alert-success alert-dismissable"><button type="button" class="btn btn-outline-danger" data-dismiss="alert" aria-hidden="true">&times;</button>Bien hecho! Los datos han sido guardados con éxito.</div>';
-						}else{
-							echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudo guardar los datos !</div>';
-						}
-					 
+				$insert = mysqli_query($con, "INSERT INTO empleados(nombres, lugar_nacimiento, fecha_nacimiento, direccion, telefono, puesto, estado, password, email)
+											  VALUES('$nombres', '$lugar_nacimiento', '$fecha_nacimiento', '$direccion', '$telefono', '$puesto', '$estado', '$password', '$email')") or die(mysqli_error($con));
+				if($insert){
+					echo '<div class="alert alert-success alert-dismissable d-flex align-items-center"><button type="button" class="btn btn-outline-success me-2" data-dismiss="alert" aria-hidden="true">&times;</button><span>Bien hecho! Los datos han sido guardados con éxito.</span></div>';
 				}else{
-					echo '<div class="alert alert-danger alert-dismissable"><button type="button" class="close" data-dismiss="alert" aria-hidden="true">&times;</button>Error. código exite!</div>';
+					echo '<div class="alert alert-danger alert-dismissable d-flex align-items-center"><button type="button" class="btn btn-outline-danger me-2" data-dismiss="alert" aria-hidden="true">&times;</button>Error. No se pudieron enviar los datos.</div>';
 				}
 			}
 			?>
  
 			<form class="form-horizontal" action="" method="post">
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Código:</label>
-					<div class="col-sm-2">
-						<input type="text" name="codigo" class="form-control" placeholder="Código" required>
+					<label class="col-sm-3 control-label">Email:</label>
+					<div class="col-sm-4">
+						<input type="email" name="email" class="form-control" placeholder="" required>
 					</div><br>
 				</div>
 				<div class="form-group">
-					<label class="col-sm-3 control-label">Nombres:</label>
+					<label class="col-sm-3 control-label">Contraseña:</label>
 					<div class="col-sm-4">
-						<input type="text" name="nombres" class="form-control" placeholder="Nombres" required>
+						<input type="password" name="password" class="form-control" placeholder="" required>
+					</div><br>
+				</div>
+				<div class="form-group">
+					<label class="col-sm-3 control-label">Nombre completo:</label>
+					<div class="col-sm-4">
+						<input type="text" name="nombres" class="form-control" placeholder="" required>
 					</div><br>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Lugar de nacimiento:</label>
 					<div class="col-sm-4">
-						<input type="text" name="lugar_nacimiento" class="form-control" placeholder="Lugar de nacimiento" required>
+						<input type="text" name="lugar_nacimiento" class="form-control" placeholder="" required>
 					</div><br>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Fecha de nacimiento:</label>
 					<div class="col-sm-4">
-						<input type="text" name="fecha_nacimiento" class="input-group date form-control" date="" data-date-format="dd-mm-yyyy" placeholder="yy-mm-dd" required>
+						<input type="text" name="fecha_nacimiento" class="form-control datepicker" readonly required>
 					</div><br>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Dirección:</label>
 					<div class="col-sm-3">
-						<textarea name="direccion" class="form-control" placeholder="Dirección"></textarea>
+						<textarea name="direccion" class="form-control" placeholder=""></textarea>
 					</div><br>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Teléfono:</label>
 					<div class="col-sm-3">
-						<input type="text" name="telefono" class="form-control" placeholder="Teléfono" required>
+						<input type="text" name="telefono" class="form-control" placeholder="" required>
 					</div><br>
 				</div>
 				<div class="form-group">
 					<label class="col-sm-3 control-label">Puesto:</label>
 					<div class="col-sm-3">
-						<input type="text" name="puesto" class="form-control" placeholder="Puesto" required>
+						<input type="text" name="puesto" class="form-control" placeholder="" required>
 					</div><br>
 				</div>
 				<div class="form-group">
@@ -134,13 +127,23 @@ Email	 	 : info@obedalvarado.pw
 		</div>
 	</div>
  
-	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-	<script src="../../js/bootstrap.min.js"></script>
-	<script src="../js/bootstrap-datepicker.js"></script>
+	<!-- jQuery -->
+	<script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
+	<!-- Bootstrap Bundle JS -->
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>
+
+	<!-- Bootstrap Datepicker JS -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.min.js"></script>
+	
 	<script>
-	$('.date').datepicker({
-		format: 'dd-mm-yyyy',
-	})
+		$(document).ready(function() {
+			$('.datepicker').datepicker({
+				format: 'yyyy-m-dd',
+				autoclose: true,
+				todayHighlight: true
+			});
+		});
 	</script>
 </body>
 </html>
